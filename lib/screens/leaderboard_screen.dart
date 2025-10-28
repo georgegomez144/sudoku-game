@@ -18,33 +18,39 @@ class LeaderboardScreen extends StatelessWidget {
     // 0-based index: 0 -> gold, 1 -> silver, 2 -> bronze, 3 -> outlined
     if (index == 0) {
       return const CircleAvatar(
-        backgroundColor: Colors.amber,
-        foregroundColor: Colors.black,
-        child: Icon(Icons.military_tech),
+        backgroundColor: Color(0x00000000),
+        foregroundColor: Colors.amber,
+        child: Icon(
+          Icons.military_tech,
+          size: 40,
+        ),
       );
     } else if (index == 1) {
       return const CircleAvatar(
-        backgroundColor: Colors.grey,
-        foregroundColor: Colors.white,
-        child: Icon(Icons.military_tech),
+        backgroundColor: Color(0x00000000),
+        foregroundColor: Colors.grey,
+        child: Icon(
+          Icons.military_tech,
+          size: 40,
+        ),
       );
     } else if (index == 2) {
       return const CircleAvatar(
-        backgroundColor: Colors.brown,
-        foregroundColor: Colors.white,
-        child: Icon(Icons.military_tech),
+        backgroundColor: Color(0x00000000),
+        foregroundColor: Colors.brown,
+        child: Icon(
+          Icons.military_tech,
+          size: 40,
+        ),
       );
     } else {
-      return CircleAvatar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey.shade400,
-        child: const Icon(Icons.military_tech_outlined),
-      );
+      return SizedBox.shrink();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<String> place = ['1st', '2nd', '3rd', '4th'];
     final entries = context.watch<GameProvider>().leaderboard;
     return Scaffold(
       appBar: AppBar(title: const Text('Leaderboard')),
@@ -60,14 +66,20 @@ class LeaderboardScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final LeaderboardEntry e = entries[index];
                     return ListTile(
-                      leading: _badgeForIndex(index),
+                      leading: SizedBox(
+                        width: 50,
+                        child: Center(
+                          child: Text(place[index],
+                              style: const TextStyle(fontSize: 16)),
+                        ),
+                      ),
                       title: Text('${e.difficulty} • ${_format(e.seconds)}'),
                       subtitle: Text(
                         DateFormat("EEEE, MMM d 'at' h:mm a").format(
                           e.completedAt.toLocal(),
                         ),
                       ),
-                      trailing: Text('#${index + 1}'),
+                      trailing: _badgeForIndex(index),
                     );
                   },
                 ),
